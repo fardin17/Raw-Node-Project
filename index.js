@@ -6,16 +6,17 @@
  *
  */
 const http = require('http')
-const {handleReqRes} = require ('./helpers/handleResReq')
+const { handleReqRes } = require('./helpers/handleResReq')
+const environment = require('./environments')
+
 const app = {}
 
 app.config = {
-    port: 3000
 }
 app.createServer = () => {
     const server = http.createServer(handleReqRes)
     server.listen(app.config.port, () => {
-        console.log("Server listening at port at ",app.config.port)
+        console.log("Server listening at port at ",environment.port)
     })
 }
 app.createServer()
