@@ -1,7 +1,9 @@
 const url = require ('url')
 const { StringDecoder } = require('string_decoder')
 const routes = require('./../routes')
-const {notFoundHandler} = require('./../handlers/notFoundHandler')
+const { notFoundHandler } = require('./../handlers/notFoundHandler')
+const {parseJSON} =require('./../helpers//utilities')
+
 const handler = {}
 
 handler.handleReqRes = (req, res) => {
@@ -25,14 +27,6 @@ handler.handleReqRes = (req, res) => {
         headerObject
     }
     const chosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHandler
-    chosenHandler(requestProperties, (statusCode, payload)=>{
-        statusCode = typeof (statusCode) === 'number' ? statusCode : 500
-        payload = typeof (payload) === 'object' ? payload : {}
-
-        const payloadString = JSON.stringify(payload)
-        res.writeHead(statusCode)
-        res.end(payloadString)
-    })
     const decoder = new StringDecoder()
     let result = ''
     req.on('data', (Buffer) => {
@@ -40,9 +34,17 @@ handler.handleReqRes = (req, res) => {
        
     })
     req.on('end', () => {
-        decoder.end()
-        console.log(result)
-        res.end("Hello Bro!")
+        result += decoder.end()
+        requestProperties.body = parseJSON(result)
+        chosenHandler(requestProperties, (statusCode, payload)=>{
+        statusCode = typeof (statusCode) === 'number' ? statusCode : 500
+        payload = typeof (payload) === 'object' ? payload : {}
+
+            const payloadString = JSON.stringify(payload)
+        res.setHeader('Content-Type','application/json')
+        res.writeHead(statusCode)
+        res.end(payloadString)
+    })
     })
     
     
