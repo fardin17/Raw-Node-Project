@@ -1,6 +1,7 @@
 const url = require ('url')
 const { StringDecoder } = require('string_decoder')
-
+const routes = require('./../routes')
+const {notFoundHandler} = require('./../handlers/notFoundHandler')
 const handler = {}
 
 handler.handleReqRes = (req, res) => {
@@ -9,13 +10,29 @@ handler.handleReqRes = (req, res) => {
     if (req.url === '/favicon.ico') {
     res.writeHead(200, {'Content-Type': 'image/x-icon'} );
     return res.end();
-    }
+    } 
     const path = parsedUrl.pathname
     // Using regular expression for trimming path
     const trimmedPath = path.replace(/^\/+|\/+$/g, ''); 
     const method = req.method.toLowerCase()
     const queryStringObject = parsedUrl.query
     const headerObject = req.headers
+    const requestProperties = {
+        path,
+        trimmedPath,
+        method,
+        queryStringObject,
+        headerObject
+    }
+    const chosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHandler
+    chosenHandler(requestProperties, (statusCode, payload)=>{
+        statusCode = typeof (statusCode) === 'number' ? statusCode : 500
+        payload = typeof (payload) === 'object' ? payload : {}
+
+        const payloadString = JSON.stringify(payload)
+        res.writeHead(statusCode)
+        res.end(payloadString)
+    })
     const decoder = new StringDecoder()
     let result = ''
     req.on('data', (Buffer) => {
@@ -25,13 +42,9 @@ handler.handleReqRes = (req, res) => {
     req.on('end', () => {
         decoder.end()
         console.log(result)
+        res.end("Hello Bro!")
     })
-    console.log(parsedUrl)
-    console.log(path)
-    console.log(trimmedPath)
-    console.log(method)
-    console.log(queryStringObject)
-    console.log(headerObject)
-    res.end("Hello Bro!")
+    
+    
 }
  module.exports = handler
