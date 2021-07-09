@@ -8,6 +8,15 @@
 const http = require('http')
 const { handleReqRes } = require('./helpers/handleResReq')
 const environment = require('./environments')
+const data = require('./lib/data')
+
+
+data.create('test', 'file1', { 'name': 'Fardin Bro', 'Faculty': 'cse' }, (err) => {
+    if (err) {
+        console.log(err)
+    }
+    
+}) 
 
 const app = {}
 
