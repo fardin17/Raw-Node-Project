@@ -11,12 +11,20 @@ const environment = require('./environments')
 const data = require('./lib/data')
 
 
-data.create('test', 'file1', { 'name': 'Fardin Bro', 'Faculty': 'cse' }, (err) => {
+/* data.create('test', 'file1', { 'name': 'Fardin Bro', 'Faculty': 'cse' }, (err) => {
     if (err) {
         console.log(err)
     }
+})  */
+data.read('test', 'file1', (err, data) => {
+    if (err) {
+        console.log(err)
+    }
+    else {
+        console.log(data)
+    }
     
-}) 
+})
 
 const app = {}
 
