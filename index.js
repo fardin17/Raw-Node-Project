@@ -24,10 +24,18 @@ const data = require('./lib/data')
         console.log(data)
     }   
 }) */
-data.update('test', 'file1', { 'name': 'Fardin Islam', 'Faculty': 'Computer Science and Engineering'}, (err) => {
+/* data.update('test', 'file1', { 'name': 'Fardin Islam', 'Faculty': 'Computer Science and Engineering'}, (err) => {
     if (err) {
         console.log(err)
     }
+}) */
+data.delete('test', 'file1', (err) => {
+    if (!err) {
+        console.log("Deleted")
+    }
+    else {
+        console.log(err)
+    }   
 })
 const app = {}
 
