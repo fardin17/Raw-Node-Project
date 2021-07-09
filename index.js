@@ -16,16 +16,19 @@ const data = require('./lib/data')
         console.log(err)
     }
 })  */
-data.read('test', 'file1', (err, data) => {
+/* data.read('test', 'file1', (err, data) => {
     if (err) {
         console.log(err)
     }
     else {
         console.log(data)
+    }   
+}) */
+data.update('test', 'file1', { 'name': 'Fardin Islam', 'Faculty': 'Computer Science and Engineering'}, (err) => {
+    if (err) {
+        console.log(err)
     }
-    
 })
-
 const app = {}
 
 app.config = {
