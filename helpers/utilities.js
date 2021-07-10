@@ -19,4 +19,21 @@ utilities.hash = str => {
 		return hash;
 	}
 };
+utilities.randomToken = tokenLength => {
+	const length =
+		typeof tokenLength === 'number' && tokenLength > 0 ? tokenLength : false;
+	if (length) {
+		const possibleCharacter = 'qwertyuiopasdfghjklzxcvbnm1234567890';
+		let output = '';
+		for (let i = 0; i < length; i++) {
+			let randomChar = possibleCharacter.charAt(
+				Math.floor(Math.random() * possibleCharacter.length),
+			);
+			output += randomChar;
+		}
+		return output;
+	} else {
+		return false;
+	}
+};
 module.exports = utilities;
