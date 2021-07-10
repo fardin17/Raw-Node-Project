@@ -151,5 +151,28 @@ handler._token.delete = (requestProperties, callback) => {
 		});
 	}
 };
-
+handler._token.verify = (phoneNo, tokenID, callback) => {
+	const id =
+		typeof tokenID === 'string' && tokenID.trim().length === 10
+			? tokenID
+			: false;
+	const phone =
+		typeof phoneNo === 'string' && phoneNo.trim().length === 11
+			? phoneNo
+			: false;
+	if (phone && id) {
+		data.read('token', id, (err, token) => {
+			let tokenData = parseJSON(token);
+			if (!err) {
+				if (phone === tokenData.phone && tokenData.expire > Date.now()) {
+					callback(false);
+				} else {
+					callback(true);
+				}
+			} else {
+				callback(true);
+			}
+		});
+	}
+};
 module.exports = handler;
