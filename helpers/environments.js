@@ -5,12 +5,22 @@ environments.staging = {
 	env: 'staging',
 	secretKey: 'fardinfardin',
 	maxCheck: 5,
+	twilio: {
+		fromPhone: '+18327803658',
+		accountSid: 'ACa30a6e223d63dbb3609bdc7d5c2e4255',
+		authToken: '8694089e56f93e3054c3fbd837d2381e',
+	},
 };
 environments.production = {
 	port: 5000,
 	env: 'production',
 	secretKey: 'IslamIslam',
 	maxCheck: 5,
+	twilio: {
+		fromPhone: '+18327803658',
+		accountSid: 'ACa30a6e223d63dbb3609bdc7d5c2e4255',
+		authToken: '8694089e56f93e3054c3fbd837d2381e',
+	},
 };
 
 const currentEnvironment =

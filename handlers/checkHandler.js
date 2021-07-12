@@ -297,14 +297,12 @@ handler._check.delete = (requestProperties, callback) => {
 							}
 						});
 					} else {
-						console.log('Authentication error');
 						callback(403, {
 							Error: 'Authentication error',
 						});
 					}
 				});
 			} else {
-				console.log('Authentication error');
 				callback(400, {
 					Message: 'Your provided ID is invalid!',
 				});
